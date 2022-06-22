@@ -48,7 +48,7 @@ public class Calculator {
 	}
 	
 	public int division(int a, int b) {
-		int quotient;;
+		int quotient;
 		if(b != 0) {
 			quotient = a / b; 
 		}
