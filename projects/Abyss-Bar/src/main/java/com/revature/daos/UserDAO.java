@@ -1,5 +1,13 @@
 package com.revature.daos;
 
-public class UserDAO {
+import java.util.List;
+
+import com.revature.models.User;
+
+
+public interface UserDAO {
+	
+	
+	
 	
 }
