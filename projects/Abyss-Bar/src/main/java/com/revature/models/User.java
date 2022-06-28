@@ -1,6 +1,7 @@
 package com.revature.models;
 
 import com.revature.Driver;
+import com.revature.models.AbyssBar;
 
 import java.util.Scanner;
 
@@ -9,40 +10,58 @@ import java.util.Objects;
 public class User {
 	static User user;
 	static Driver driver;
+	static AbyssBar abyssBar;
 	static Scanner userInput = new Scanner(System.in);
 	private static int userId;
-	private static String userName = null;
-	private static String userPassword = null;
-	private static String userPrivilege;
+	private static String userName = "admin";
+	private static String userPassword = "pass";
+	private static String userPrivilege = "Customer";
 	private static int userCredits;
 	
 
-	public User() {
+	public User(User user) {
 		System.out.println("Welcome Miner's to the DRG's Abyss Bar. Please enter your username!");
 		String userName = userInput.nextLine();
 		setUserName(userName);
 		System.out.println("Welcome Miner's to the DRG's Abyss Bar. Please enter your password!");
 		String userPassword = userInput.nextLine();
 		setPassword(userPassword);
-		
-		newUserCreate(userName, userPassword);
-		
 		System.out.println("userName: " + userName);
 		System.out.println("userPassword: " + userPassword);
 		}
-	public void newUserCreate(String userName, String userPassword) {
-		
-		System.out.println("Welcome aboard to DRG Abyss Bar " + userName + " We hope you enjoy your stay on Space Rig 17!");
-		setPrivilege("Customer");
-		getUserName();
-		getPassword();
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	}
+
 	
+	public static void accountOptionsCustomer()
+	{
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("Welcome " + user + "welcome to the account menu how can we serve you today?");
+		System.out.println("1.) pull up the abyss bar menu.");
+		System.out.println("2.) add credits to your wallet.");
+		System.out.println("3.) Log out and return to the main menu.");
+		int userNewInput = userInput.nextInt();
+		userInput.nextLine();
+		switch(userNewInput) {
+		case 1:
+			System.out.println("Going to the Menu...");
+			System.out.println("User has chosen 1");
+			abyssBar.displayCurrentItems();
+		case 2:
+			System.out.println("Going to the Menu...");
+		case 3:
+			System.out.println("Going to the main menu...");
+			Driver.abyssMenu();
+		default:
+
+		}
+		
+		
+		
+	}
 	
 	public static void  userLogin() {
 		System.out.println("userName: " + userName);
 		System.out.println("userPassword: " + userPassword);
+		System.out.println("userPrivilege: " + userPrivilege);
 		System.out.println("Please enter your credientals");
 		System.out.println("Enter your Username");
 		String userField = userInput.nextLine();
@@ -52,47 +71,38 @@ public class User {
 			System.out.println("Please do not leave the fields blank");
 			userLogin();
 		}
-		if(userField.equals(userName)) {
-			if(passwordField.equals(userPassword)) {
-				accountOptions();
-				userInput.close();
-			}
-		}
-	}
-	
-	
-	public static void accountOptions()
-	{
-		int userChoice = userInput.nextInt();
-		userInput.nextLine();
-		if(userPrivilege == "Customer") {
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			System.out.println("What would you like to do user?");
-			System.out.println("1.) Log out and back to the main menu?");
-			System.out.println("2.) Go to the bar and get some drinks?");
-			System.out.println("3.) View current information about your account.");
-			switch(userChoice) {
-			case 1:			
-			driver.abyssMenu();
-			case 2:
-			User.userLogin();
-			case 3:
-			System.out.println("Exiting the Abyss Bar, thank you for your patronage");
-			System.exit(0);
-			default:
 
+		if(userField.equals(userName)) {
+			System.out.println("The username is correct!");
+			if(passwordField.equals(userPassword)) {
+				System.out.println("password is correct");
+				switch(userPrivilege){
+				case "Customer":
+					System.out.println("User is a customer, redirecting to customer options");
+					accountOptionsCustomer();
+				case "Employee":
+					System.out.println("User is a Employee, redirecting to Employee options");
+					
+				case "Manager":
+					System.out.println("User is a Manager, redirecting to Manager Options");
+				}
+				
 			}
-			
 		}
-		
-		
-		
-		
+		else {
+			System.out.println("Please enter the correct credentials");
+			userLogin();
+		}
+			
 	}
 	
-	public static User createNewUser(User u){
-		 u = new User();
-		return u;
+	
+
+	
+	public static User createNewUser(User user){
+		 user = new User(user);
+		 System.out.println(user);
+		return user;
 	}
 	
 	public void resetAccountState(int userId, String userName, String userPassword, int userCredits, String userPrivilege) {
@@ -141,6 +151,14 @@ public class User {
 	
 	public void setPrivilege(String userPrivilege) {
 		this.userPrivilege = userPrivilege;
+	}
+	
+	public static User getCurrentUser() {
+		return user;
+	}
+	
+	public void setCurrentUser(User currentUser) {
+		this.user = user;
 	}
 	
 	public void changePrivileges() {

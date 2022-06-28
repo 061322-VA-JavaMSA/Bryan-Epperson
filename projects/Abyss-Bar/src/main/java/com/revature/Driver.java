@@ -10,7 +10,6 @@ public class Driver {
 	static User user;
 	
 	public static void main(String[] args) {
-				User currentUser = new User();
 				abyssMenu();
 //				User currentUser = createNewUser();
 		

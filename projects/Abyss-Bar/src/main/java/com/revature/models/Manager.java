@@ -2,6 +2,11 @@ package com.revature.models;
 
 public class Manager extends User {
 	
+	public Manager(User u) {
+		super(u);
+		// TODO Auto-generated constructor stub
+	}
+
 	public void changePrivileges() {
 	
 		
