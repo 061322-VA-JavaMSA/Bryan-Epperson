@@ -1,6 +1,13 @@
 package com.revature;
 
 import com.revature.models.User;
+import com.revature.models.AbyssBar;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Scanner;
+import com.revature.utils.ConnectionUtil;
+
 
 import java.util.Scanner;
 
@@ -8,8 +15,21 @@ public class Driver {
 
 	static Scanner choiceInput = new Scanner(System.in); // This is needed to add inputs to our driver
 	static User user;
+	static AbyssBar barMenu;
+	
+	
+	
 	
 	public static void main(String[] args) {
+		try {
+			ConnectionUtil.getDatabaseConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 				abyssMenu();
 //				User currentUser = createNewUser();
 		
@@ -28,16 +48,23 @@ public class Driver {
 		choiceInput.nextLine();
 		switch(userChoice) {
 		case 1:
-			user.createNewUser(user);
+			user.createNewUser();
+//			System.out.println("current user is:"+ user.getCurrentUser());
 			abyssMenu();
 		case 2:
-			user.userLogin();
+			ConnectionUtil.getUserInfo();
+			
 		case 3:
 			System.out.println("Exiting the Abyss Bar, thank you for your patronage");
 		default:
 			abyssMenu();
 			choiceInput.close();
 		}
+	}
+	
+	public static void callBarMenu() {
+		
+		AbyssBar.displayMenu();
 	}
 
 //	public static void accountOptions() {
