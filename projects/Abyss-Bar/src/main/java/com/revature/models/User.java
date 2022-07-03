@@ -43,7 +43,7 @@ public class User {
 		userInput.nextLine();
 		switch(userChoice) {
 			case 1:
-				ConnectionUtil.abyssBarInfo();
+				AbyssBar.displayList();
 			case 2:
 				System.out.println("How much would you like to add to your wallet?");
 				userChoice = userInput.nextInt();
@@ -122,7 +122,7 @@ public class User {
 		
 		
 		ConnectionUtil.getUserInfo();
-		ConnectionUtil.abyssBarInfo();
+
 		
 		
 //		System.out.println("Please enter your credientals");

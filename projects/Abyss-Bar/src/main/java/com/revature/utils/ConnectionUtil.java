@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import com.revature.models.User;
@@ -202,7 +204,7 @@ public class ConnectionUtil {
 			
 			sqlItemStatement.execute(sqlNewItem);
 			System.out.println("Item has been added!");
-			abyssBarInfo();
+
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -246,34 +248,49 @@ public class ConnectionUtil {
 	}
 	
 
-	public static void abyssBarInfo() {
+
+	
+	
+	public static List<AbyssBar> selectAll(){
+		
+
+		
+		List<AbyssBar> abyssBarList = new ArrayList<AbyssBar>();
+		
+		
 		try {
 			Connection connectToMyDataBase = DriverManager.getConnection(url, username, password);
-
-			
-			String userSelect = choiceInput.next(); 
-			
-			String sqlItem = "select * from drink_menu where drink_menu.drink_name = '"+userSelect+";";
-			
-			Statement sqlItmStatement = connectToMyDataBase.createStatement();
 			
 			
-			ResultSet resultItems = sqlItmStatement.executeQuery(sqlItem); //output results of drink table
+			Statement SQlItmstatement = connectToMyDataBase.createStatement();
 			
-			while(resultItems.next()) {
-				aybssBar = new AbyssBar();
-				user.setId(resultItems.getInt("id"));
-				user.setUserName(resultItems.getString("drink_name"));
-				user.setPassword(resultItems.getString("amount"));
-				user.setPrivilege(resultItems.getString("desc"));
-				user.setCredits(resultItems.getInt("credits"));
+			ResultSet rsItms = SQlItmstatement.executeQuery("Select * from drink_menu");
+			
+			while(rsItms.next()) {
+				AbyssBar abyssBar = new AbyssBar();
+				abyssBar.setId(rsItms.getInt("id"));
+				abyssBar.setItem(rsItms.getString("drink_name"));
+				abyssBar.setAmountServed(rsItms.getInt("amount_served"));
+				abyssBar.setDrinkCost(rsItms.getInt("cost_in_creds"));
+				abyssBar.setDesc(rsItms.getString("description_of_drink"));
+				
+				
+				abyssBarList.add(abyssBar);
+				
 			}
 			
-		}
-		catch(SQLException e){
 			
 		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return abyssBarList;
+		
 	}
+	
+
 	
 	public static void updateAbyssBar() {}
 	
