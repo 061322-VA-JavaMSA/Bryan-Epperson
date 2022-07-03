@@ -250,6 +250,46 @@ public class ConnectionUtil {
 
 
 	
+	public static List<User> selectAllUsers(){
+		
+
+		
+		List<User> userList = new ArrayList<User>();
+		
+		
+		try {
+			Connection connectToMyDataBase = DriverManager.getConnection(url, username, password);
+			
+			
+			Statement SQlItmstatement = connectToMyDataBase.createStatement();
+			
+			ResultSet rsUsers = SQlItmstatement.executeQuery("Select * from users");
+			
+			while(rsUsers.next()) {
+				User users = new User();
+				users.setId(rsUsers.getInt("id"));
+				users.setUserName(rsUsers.getString("username"));
+				users.setPassword(rsUsers.getString("password"));
+				users.setAge(rsUsers.getInt("age"));
+				users.setCredits(rsUsers.getInt("credits"));
+				users.setPrivilege(rsUsers.getString("privilege"));
+				
+				userList.add(users);
+				
+			}
+			
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return userList;
+		
+	}
+	
+	
 	
 	public static List<AbyssBar> selectAll(){
 		

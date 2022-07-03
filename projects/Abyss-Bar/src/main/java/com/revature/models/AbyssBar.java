@@ -21,26 +21,7 @@ public class AbyssBar {
 	static Scanner choiceInput = new Scanner(System.in); // This is needed to add inputs to our driver
 	
 	
-	public static void displayMenu() {
-		System.out.println("	Welcome to our bar what would you like to do?	");
-		System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-		System.out.println("1.) Display the menu");
-		System.out.println("2.) return to Account Options.");
-		System.out.println("3.) sign out and return to the main menu.");
-		int userInput = choiceInput.nextInt(); // make not to not put scanners before print statements or code you intend to execute.
-		choiceInput.nextLine();
-		switch(userInput) {
-		case 1:
-			System.out.println("Displaying menu");
-			AbyssBar.displayList();
-		case 2:
-			System.out.println("Exiting menu....");
-		case 3:
-			System.out.println("Returning to the main menu!");
-			Driver.abyssMenu();
-		}
-		
-	}
+
 	
 	public static void displayList() {
 		
@@ -50,7 +31,7 @@ public class AbyssBar {
 		
 		for(AbyssBar abyssBar : abyssBarList) {
 			
-			System.out.println(abyssBar.getId() + "," + abyssBar.getItem() + "," + abyssBar.getAmountServed() + "," + abyssBar.getDrinkCost() + ","   + abyssBar.getDesc());
+			System.out.println("DrinkID: "+abyssBar.getId() + "," +"Item Name: "+ abyssBar.getItem() + "," +"AmountServed: " + abyssBar.getAmountServed() + "," + "Drink Cost: " + abyssBar.getDrinkCost() + ","   + "Desc: " + abyssBar.getDesc());
 			
 		}
 		
