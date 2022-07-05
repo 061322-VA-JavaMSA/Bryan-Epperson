@@ -120,6 +120,7 @@ public class ConnectionUtil {
 	public static void permissionChanger() {
 		try {
 			Connection connectToMyDataBase = DriverManager.getConnection(url, username, password);
+			user.accountOptionsManager();
 			System.out.println("Welcome manager what would you like to do?");
 			System.out.println("1.)Demote a user!");
 			System.out.println("2.)Promote a user!");
@@ -485,7 +486,7 @@ public class ConnectionUtil {
 		try {
 			Connection connectToMyDataBase = DriverManager.getConnection(url, username, password);
 			
-			String userList = "select * from users where user.privilege = 'Employee';";
+			String userList = "select * from users where users.privilege = 'Employee';";
 			
 			Statement userStatement = connectToMyDataBase.createStatement();
 			
@@ -495,8 +496,14 @@ public class ConnectionUtil {
 				user = new User();
 				
 				user.setUserName(ul.getString("username"));
+				
 				user.setPrivilege(ul.getString("privilege"));
 				
+				String userName = user.getUserName();
+				
+				String userPrivilege = user.getPrivilege();
+				
+				System.out.println(userName + " , " + userPrivilege);
 			}
 			
 		}

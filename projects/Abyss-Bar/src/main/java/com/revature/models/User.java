@@ -115,13 +115,6 @@ public class User {
 	
 	
 	public static void accountOptionsManager() {
-		ConnectionUtil.permissionChanger();
-		
-	}
-	
-	public static void  userLogin() {
-
-		
 		System.out.println("What would you like to do manager");
 		System.out.println("1.) View employees");
 		System.out.println("2.) change permissions of employees(Unfinished)");
@@ -130,8 +123,27 @@ public class User {
 		
 		switch(userChoice) {
 		case 1:
-			ConnectionUtil.getUserInfo();
+			ConnectionUtil.viewEmployeeList();
+		case 2:
+			ConnectionUtil.permissionChanger();
 		}
+		
+		
+	}
+	
+	public static void  userLogin() {
+
+		ConnectionUtil.getUserInfo();
+//		System.out.println("What would you like to do manager");
+//		System.out.println("1.) View employees");
+//		System.out.println("2.) change permissions of employees(Unfinished)");
+//		
+//		int userChoice = userInput.nextInt();
+//		
+//		switch(userChoice) {
+//		case 1:
+//			ConnectionUtil.getUserInfo();
+//		}
 		
 		
 			
