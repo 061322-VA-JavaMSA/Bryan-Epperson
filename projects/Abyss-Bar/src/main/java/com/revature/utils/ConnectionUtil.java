@@ -1,5 +1,6 @@
 package com.revature.utils;
 
+
 import java.util.Scanner;
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import com.revature.models.Offers;
 import com.revature.models.User;
+import com.revature.Driver;
 import com.revature.models.AbyssBar;
 public class ConnectionUtil {
 	
@@ -332,12 +335,84 @@ public class ConnectionUtil {
 	
 
 	
-	public static void updateAbyssBar() {}
+
 	
 	
-	public static void pendingOffersForDrinks() {
-		
+	public static void makeDrinkOffer() {
+		try {
+			
+			Connection connectToMyDatabase = DriverManager.getConnection(url, username, password);
+			
+			int drinkOffer = 0;
+			
+			AbyssBar.displayList();
+			
+			String drink_choice = choiceInput.next();
+			
+			String abyssDrinkSQL = "select * from drink_menu where drink_menu.drink_name = '" + drink_choice +"';";
+			
+			Statement drinkStatement = connectToMyDatabase.createStatement();
+			
+			ResultSet drinkResult = drinkStatement.executeQuery(abyssDrinkSQL);
+			
+			
+			
+					
+			while(drinkResult.next()) {
+				
+				 AbyssBar drinkItemOffer = new AbyssBar();
+				
+				 drinkItemOffer.setItem(drinkResult.getString("drink_name"));
+				 drinkItemOffer.setDrinkCost(drinkResult.getInt("cost_in_creds"));
+				 
+				 
+				 String drinkName = drinkItemOffer.getItem();
+				 
+				 int drinkPrice = drinkItemOffer.getDrinkCost();
+				 
+				 System.out.println("This is the price of your drink: " + drinkPrice);
+				 System.out.println("How much are you willing to pay?");
+				 
+				 drinkOffer = choiceInput.nextInt();
+				 
+				 if(drinkOffer < drinkPrice) {
+					 System.out.println("Sorry that is insufficent funds! returning to offer menu");
+					 
+					 makeDrinkOffer();
+					 
+					 
+				 }
+				 
+				 else {
+					 System.out.println("Sucess! Pending your transaction");
+					 
+					 String currentUser = user.getUserName();
+					 
+					 System.out.println("Sucess! Pending your transaction");
+					 
+					 user.accountOptionsCustomer();
+					 
+					 
+				 }
+				 
+				 
+				 
+			}
+			
+
+			
+
+			
+		}
+		catch(SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
 	}
 	
+	public static void createOfferList() {
+		
+	}
 	
 }

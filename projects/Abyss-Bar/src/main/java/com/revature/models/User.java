@@ -44,14 +44,11 @@ public class User {
 		switch(userChoice) {
 			case 1:
 				AbyssBar.displayList();
-
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-				
 				accountOptionsCustomer();
 				
 			case 2:
-				System.out.println("How much would you like to add to your wallet?");
-				userChoice = userInput.nextInt();
+				ConnectionUtil.makeDrinkOffer();
 				userInput.nextLine();
 			case 3:
 				userLogin();
