@@ -85,27 +85,27 @@ public class User {
 	
 	public static void accountOptionsEmployee()
 	{
+		
+		
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		AbyssBar.createNewItem();
-//		System.out.println("3.) Log out and return to the main menu.");
-//		int userNewInput = userInput.nextInt();
-//		userInput.nextLine();
-//		switch(userNewInput) {
-//		case 1:
-//			System.out.println("Going to the Menu...");
-//			System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-//			Driver.callBarMenu();
-//		case 2:
-//			System.out.println("Going to the Menu...");
-//			System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-//		case 3:
-//			System.out.println("Going to the main menu...");
-//			System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-//		case 4:
-//			System.out.println("Going to the add item menu...");
-//			System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-//			Driver.abyssMenu();
-//		default:
+		System.out.println("What would you like to do as an Employee?");
+		System.out.println("1.)View Pending Offers");
+		System.out.println("2.)Create a new item");
+		System.out.println("3.) Log out and return to the main menu.");
+		
+		int userChoice = userInput.nextInt();
+		
+		switch(userChoice) {
+		case 1:
+			ConnectionUtil.viewOfferList();
+		case 2:
+			AbyssBar.createNewItem();
+		case 3:
+			ConnectionUtil.editOfferList();
+		}
+
+
+
 
 		
 		
@@ -122,43 +122,18 @@ public class User {
 	public static void  userLogin() {
 
 		
+		System.out.println("What would you like to do manager");
+		System.out.println("1.) View employees");
+		System.out.println("2.) change permissions of employees(Unfinished)");
 		
-		ConnectionUtil.getUserInfo();
-
+		int userChoice = userInput.nextInt();
+		
+		switch(userChoice) {
+		case 1:
+			ConnectionUtil.getUserInfo();
+		}
 		
 		
-//		System.out.println("Please enter your credientals");
-//		System.out.println("Enter your Username");
-//		String userField = userInput.nextLine();
-//		System.out.println("Enter your Password");
-//		String passwordField = userInput.nextLine();
-//		if(userName == null && userPassword == null) {
-//			System.out.println("Please do not leave the fields blank");
-//			userLogin();
-//		}
-//
-//		if(userField.equals(userName)) {
-//			System.out.println("The username is correct!");
-//			if(passwordField.equals(userPassword)) {
-//				System.out.println("password is correct");
-//				System.out.println("Welcome currentUser: " + userName + "!");
-//				switch(userPrivilege){
-//				case "Customer":
-//					System.out.println("User is a customer, redirecting to customer options");
-//					accountOptionsCustomer();
-//				case "Employee":
-//					System.out.println("User is a Employee, redirecting to Employee options");
-//					
-//				case "Manager":
-//					System.out.println("User is a Manager, redirecting to Manager Options");
-//				}
-//				
-//			}
-//		}
-//		else {
-//			System.out.println("Please enter the correct credentials");
-//			userLogin();
-//		}
 			
 	}
 	
