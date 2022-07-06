@@ -3,6 +3,8 @@ package com.revature.models;
 import com.revature.models.User;
 import com.revature.utils.ConnectionUtil;
 import com.revature.Driver;
+
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -10,7 +12,7 @@ import java.util.Scanner;
 public class AbyssBar {
 	
 	private int itmId;
-	private String itmName;
+	private String itmName = null;
 	private int amountServed;
 	private int drinkCost;
 	private String drinkDesc;
@@ -19,23 +21,18 @@ public class AbyssBar {
 	static Scanner choiceInput = new Scanner(System.in); // This is needed to add inputs to our driver
 	
 	
-	public static void displayMenu() {
-		System.out.println("	Welcome to our bar what would you like to do?	");
-		System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-		System.out.println("1.) Display the menu");
-		System.out.println("2.) return to Account Options.");
-		System.out.println("3.) sign out and return to the main menu.");
-		int userInput = choiceInput.nextInt(); // make not to not put scanners before print statements or code you intend to execute.
-		choiceInput.nextLine();
-		switch(userInput) {
-		case 1:
-			System.out.println("Displaying menu");
-			System.out.println("SQL STATEMENTE HERE");
-		case 2:
-			System.out.println("Exiting menu....");
-		case 3:
-			System.out.println("Returning to the main menu!");
-			Driver.abyssMenu();
+
+	
+	public static void displayList() {
+		
+		
+		
+		List<AbyssBar> abyssBarList = ConnectionUtil.selectAll();
+		
+		for(AbyssBar abyssBar : abyssBarList) {
+			
+			System.out.println("DrinkID: "+abyssBar.getId() + "," +"Item Name: "+ abyssBar.getItem() + "," +"AmountServed: " + abyssBar.getAmountServed() + "," + "Drink Cost: " + abyssBar.getDrinkCost() + ","   + "Desc: " + abyssBar.getDesc());
+			
 		}
 		
 	}
@@ -47,8 +44,7 @@ public class AbyssBar {
 		
 			
 		
-
-		String userPrivilege = "Customer"; // all new users should be set to customers
+		
 		int amountServed = 0;
 		int drinkCost = 20;
 		String drinkDesc = "sample";
@@ -72,7 +68,7 @@ public class AbyssBar {
 		return itmName;
 	}
 	
-	public void setItem(String itemName) {
+	public void setItem(String itmName) {
 		this.itmName = itmName;
 	}
 	
@@ -90,6 +86,14 @@ public class AbyssBar {
 	
 	public void setDesc(String drinkDesc){
 		this.drinkDesc = drinkDesc;
+	}
+	
+	public void setDrinkCost(int drinkCost) {
+		this.drinkCost = drinkCost;
+	}
+	
+	public int getDrinkCost() {
+		return drinkCost;
 	}
 	
 	public static void tipLLoyd() {
