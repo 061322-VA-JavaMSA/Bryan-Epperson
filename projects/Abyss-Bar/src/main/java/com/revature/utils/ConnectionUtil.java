@@ -530,7 +530,7 @@ public class ConnectionUtil {
 			
 			viewOfferList();
 			
-					
+			choiceInput.nextLine();		
 			while(drinkResult.next()) {
 				
 				 Offers offers = new Offers();
