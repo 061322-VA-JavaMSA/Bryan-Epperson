@@ -62,10 +62,7 @@ public class Driver {
 		}
 	}
 	
-	public static void callBarMenu() {
-		
-		AbyssBar.displayMenu();
-	}
+
 
 //	public static void accountOptions() {
 //		int userChoice = choiceInput.nextInt();

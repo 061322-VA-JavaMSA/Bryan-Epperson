@@ -1,5 +1,6 @@
 package com.revature.utils;
 
+
 import java.util.Scanner;
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,9 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import com.revature.models.Offers;
 import com.revature.models.User;
+import com.revature.Driver;
 import com.revature.models.AbyssBar;
 public class ConnectionUtil {
 	
@@ -20,6 +25,7 @@ public class ConnectionUtil {
 	private static Connection connection;
 	static User user;
 	static AbyssBar aybssBar;
+	static Offers offers;
 	static String username = "postgres";
 	static String password = "RaylaMoonCallumSky";
 	static String url = "jdbc:postgresql://database-1.clykcc02lppz.us-east-1.rds.amazonaws.com:5432/postgres";
@@ -114,6 +120,7 @@ public class ConnectionUtil {
 	public static void permissionChanger() {
 		try {
 			Connection connectToMyDataBase = DriverManager.getConnection(url, username, password);
+			user.accountOptionsManager();
 			System.out.println("Welcome manager what would you like to do?");
 			System.out.println("1.)Demote a user!");
 			System.out.println("2.)Promote a user!");
@@ -202,7 +209,7 @@ public class ConnectionUtil {
 			
 			sqlItemStatement.execute(sqlNewItem);
 			System.out.println("Item has been added!");
-			abyssBarInfo();
+
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -246,41 +253,324 @@ public class ConnectionUtil {
 	}
 	
 
-	public static void abyssBarInfo() {
+
+	
+	public static List<User> selectAllUsers(){
+		
+
+		
+		List<User> userList = new ArrayList<User>();
+		
+		
 		try {
 			Connection connectToMyDataBase = DriverManager.getConnection(url, username, password);
-
-			
-			String userSelect = choiceInput.next(); 
-			
-			String sqlItem = "select * from drink_menu where drink_menu.drink_name = '"+userSelect+";";
-			
-			Statement sqlItmStatement = connectToMyDataBase.createStatement();
 			
 			
-			ResultSet resultItems = sqlItmStatement.executeQuery(sqlItem); //output results of drink table
+			Statement SQlItmstatement = connectToMyDataBase.createStatement();
 			
-			while(resultItems.next()) {
-				aybssBar = new AbyssBar();
-				user.setId(resultItems.getInt("id"));
-				user.setUserName(resultItems.getString("drink_name"));
-				user.setPassword(resultItems.getString("amount"));
-				user.setPrivilege(resultItems.getString("desc"));
-				user.setCredits(resultItems.getInt("credits"));
+			ResultSet rsUsers = SQlItmstatement.executeQuery("Select * from users");
+			
+			while(rsUsers.next()) {
+				User users = new User();
+				users.setId(rsUsers.getInt("id"));
+				users.setUserName(rsUsers.getString("username"));
+				users.setPassword(rsUsers.getString("password"));
+				users.setAge(rsUsers.getInt("age"));
+				users.setCredits(rsUsers.getInt("credits"));
+				users.setPrivilege(rsUsers.getString("privilege"));
+				
+				userList.add(users);
+				
 			}
 			
-		}
-		catch(SQLException e){
 			
 		}
-	}
-	
-	public static void updateAbyssBar() {}
-	
-	
-	public static void pendingOffersForDrinks() {
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return userList;
 		
 	}
 	
+	
+	
+	public static List<AbyssBar> selectAll(){
+		
+
+		
+		List<AbyssBar> abyssBarList = new ArrayList<AbyssBar>();
+		
+		
+		try {
+			Connection connectToMyDataBase = DriverManager.getConnection(url, username, password);
+			
+			
+			Statement SQlItmstatement = connectToMyDataBase.createStatement();
+			
+			ResultSet rsItms = SQlItmstatement.executeQuery("Select * from drink_menu");
+			
+			while(rsItms.next()) {
+				AbyssBar abyssBar = new AbyssBar();
+				abyssBar.setId(rsItms.getInt("id"));
+				abyssBar.setItem(rsItms.getString("drink_name"));
+				abyssBar.setAmountServed(rsItms.getInt("amount_served"));
+				abyssBar.setDrinkCost(rsItms.getInt("cost_in_creds"));
+				abyssBar.setDesc(rsItms.getString("description_of_drink"));
+				
+				
+				abyssBarList.add(abyssBar);
+				
+			}
+			
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return abyssBarList;
+		
+	}
+	
+
+	
+
+	
+	
+	public static void makeDrinkOffer() {
+		try {
+			
+			Connection connectToMyDatabase = DriverManager.getConnection(url, username, password);
+			
+			int drinkOffer = 0;
+			
+			AbyssBar.displayList();
+			
+			String drink_choice = choiceInput.next();
+			
+			String abyssDrinkSQL = "select * from drink_menu where drink_menu.drink_name = '" + drink_choice +"';";
+			
+			Statement drinkStatement = connectToMyDatabase.createStatement();
+			
+			ResultSet drinkResult = drinkStatement.executeQuery(abyssDrinkSQL);
+			
+			
+			
+					
+			while(drinkResult.next()) {
+				
+				 AbyssBar drinkItemOffer = new AbyssBar();
+				
+				 drinkItemOffer.setItem(drinkResult.getString("drink_name"));
+				 drinkItemOffer.setDrinkCost(drinkResult.getInt("cost_in_creds"));
+				 
+				 
+				 String drinkName = drinkItemOffer.getItem();
+				 
+				 int drinkPrice = drinkItemOffer.getDrinkCost();
+				 
+				 System.out.println("This is the price of your drink: " + drinkPrice);
+				 System.out.println("How much are you willing to pay?");
+				 
+				 drinkOffer = choiceInput.nextInt();
+				 
+				 if(drinkOffer < drinkPrice) {
+					 System.out.println("Sorry that is insufficent funds! returning to offer menu");
+					 
+					 makeDrinkOffer();
+					 
+					 
+				 }
+				 
+				 else {
+					 System.out.println("Sucess! Pending your transaction");
+					 
+					 String currentUser = user.getUserName();
+					 
+					 
+					 String offerStatus = "Pending";
+					 
+					 createOfferList(currentUser, offerStatus ,drinkName, drinkOffer);
+					 
+					 
+					 
+					 
+				 }
+				 
+				 
+				 
+			}
+			
+
+			
+
+			
+		}
+		catch(SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+	}
+	
+	public static void createOfferList(String customer, String status, String itemName , int offerPrice) {
+		try {
+			
+			Connection connectToMyDatabase = DriverManager.getConnection(url,username,password);
+			
+			String offerCreatedSQL = "insert into offers(current_user_offering, current_offer_status, current_item_offer, credit_cost) values ('"+customer+"', '"+status+"','"+itemName+"' ,'"+offerPrice+"' )";      
+			
+			Statement offerCreationSQL = connectToMyDatabase.createStatement();
+			
+			offerCreationSQL.executeUpdate(offerCreatedSQL);
+			
+			System.out.println("offer created and pending");
+			
+			System.out.println("Please wait for an employee to authorize your offer");
+			
+			user.accountOptionsCustomer();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			
+		}
+	
+	}
+	
+	public static void viewOfferList() {
+		
+		try {
+			
+			Connection connectToMyDatabase = DriverManager.getConnection(url,username,password);
+			
+			String viewOfferSQL = "select * from offers;";
+			
+			Statement viewOfferStatement = connectToMyDatabase.createStatement();
+			
+			ResultSet viewOfferResult = viewOfferStatement.executeQuery(viewOfferSQL);
+			
+			while(viewOfferResult.next()){
+				
+				Offers offers = new Offers();
+				
+				offers.setId(viewOfferResult.getInt("id"));
+				offers.setCustomer(viewOfferResult.getString("current_user_offering"));
+				offers.setOffer(viewOfferResult.getString("current_item_offer"));
+				offers.setCost(viewOfferResult.getInt("credit_cost"));
+				
+				int offerId = offers.getId();
+				
+				String offerVariableUser = offers.getCustomer(); 
+				
+				String offerItem = offers.getOffer();
+				
+				int offerPricing = offers.getCost();
+				
+				System.out.println("Current Offers: "+ offerId+ " , " + offerVariableUser + " , " + offerItem + " , " + offerPricing);
+				
+			}
+			
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void viewEmployeeList() {
+		
+		try {
+			Connection connectToMyDataBase = DriverManager.getConnection(url, username, password);
+			
+			String userList = "select * from users where users.privilege = 'Employee';";
+			
+			Statement userStatement = connectToMyDataBase.createStatement();
+			
+			ResultSet ul = userStatement.executeQuery(userList);
+			
+			while(ul.next()) {
+				user = new User();
+				
+				user.setUserName(ul.getString("username"));
+				
+				user.setPrivilege(ul.getString("privilege"));
+				
+				String userName = user.getUserName();
+				
+				String userPrivilege = user.getPrivilege();
+				
+				System.out.println(userName + " , " + userPrivilege);
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void editOfferList() {
+		try {
+			
+			Connection connectToMyDatabase = DriverManager.getConnection(url, username, password);
+			
+			
+			System.out.println("Select an offer you would like to edit(Choose an ID)"); 
+			
+			int offerEdit = choiceInput.nextInt();
+			
+			String abyssDrinkSQL = "select * from offers where offers.Id = '" + offerEdit +"';";
+			
+			Statement drinkStatement = connectToMyDatabase.createStatement();
+			
+			ResultSet drinkResult = drinkStatement.executeQuery(abyssDrinkSQL);
+			
+			viewOfferList();
+			
+			choiceInput.nextLine();		
+			while(drinkResult.next()) {
+				
+				 Offers offers = new Offers();
+				
+				 offers.setOffer(drinkResult.getString("current_item_offer"));
+				 
+				 offers.setStatus(drinkResult.getString("current_offer_status"));
+							 
+				 String drinkOffer = offers.getOffer();
+				 
+				 String drinkStatus = offers.getStatus();
+				 
+				 System.out.println("What would you like to do with this offer?");
+				 
+				 int employeeChoice = choiceInput.nextInt();
+				 
+				 if(employeeChoice == 1) {
+					 offers.setStatus("Denied");
+				 }
+				 else if(employeeChoice == 2) {
+					 offers.setStatus("Accepted");
+				 }
+				 
+				 user.accountOptionsEmployee();
+				 
+				 
+				 
+				 
+			}
+			
+
+			
+
+			
+		}
+		catch(SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+	}
 	
 }

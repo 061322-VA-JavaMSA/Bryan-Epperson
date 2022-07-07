@@ -7,7 +7,7 @@ import com.revature.utils.ConnectionUtil;
 import com.revature.models.AbyssBar;
 
 import java.util.Scanner;
-
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -18,7 +18,7 @@ public class User {
 	private int userId;
 	private String userName = null;
 	private String userPassword = null;
-	private String userPrivilege = "Customer";
+	private String userPrivilege;
 	private int userCredits = 0;
 	private int userAge = 18;
 	
@@ -36,17 +36,19 @@ public class User {
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("Welcome to the Customer menu how can we serve you today?");
 		System.out.println("1.) pull up the abyss bar menu.");
-		System.out.println("2.) add credits to your wallet.");
-		System.out.println("3.) return to accountMenu");
-		System.out.println("4.) mainMenu");
+		System.out.println("2.) Make an offer.");
+		System.out.println("3.) return to Login");
+		System.out.println("4.) return to the main menu");
 		int userChoice = userInput.nextInt();
 		userInput.nextLine();
 		switch(userChoice) {
 			case 1:
-				ConnectionUtil.abyssBarInfo();
+				AbyssBar.displayList();
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				accountOptionsCustomer();
+				
 			case 2:
-				System.out.println("How much would you like to add to your wallet?");
-				userChoice = userInput.nextInt();
+				ConnectionUtil.makeDrinkOffer();
 				userInput.nextLine();
 			case 3:
 				userLogin();
@@ -83,27 +85,27 @@ public class User {
 	
 	public static void accountOptionsEmployee()
 	{
+		
+		
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		AbyssBar.createNewItem();
-//		System.out.println("3.) Log out and return to the main menu.");
-//		int userNewInput = userInput.nextInt();
-//		userInput.nextLine();
-//		switch(userNewInput) {
-//		case 1:
-//			System.out.println("Going to the Menu...");
-//			System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-//			Driver.callBarMenu();
-//		case 2:
-//			System.out.println("Going to the Menu...");
-//			System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-//		case 3:
-//			System.out.println("Going to the main menu...");
-//			System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-//		case 4:
-//			System.out.println("Going to the add item menu...");
-//			System.out.println("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|");
-//			Driver.abyssMenu();
-//		default:
+		System.out.println("What would you like to do as an Employee?");
+		System.out.println("1.)View Pending Offers");
+		System.out.println("2.)Create a new item");
+		System.out.println("3.) Log out and return to the main menu.");
+		
+		int userChoice = userInput.nextInt();
+		
+		switch(userChoice) {
+		case 1:
+			ConnectionUtil.viewOfferList();
+		case 2:
+			AbyssBar.createNewItem();
+		case 3:
+			ConnectionUtil.editOfferList();
+		}
+
+
+
 
 		
 		
@@ -113,50 +115,37 @@ public class User {
 	
 	
 	public static void accountOptionsManager() {
-		ConnectionUtil.permissionChanger();
+		System.out.println("What would you like to do manager");
+		System.out.println("1.) View employees");
+		System.out.println("2.) change permissions of employees(Unfinished)");
+		
+		int userChoice = userInput.nextInt();
+		
+		switch(userChoice) {
+		case 1:
+			ConnectionUtil.viewEmployeeList();
+		case 2:
+			ConnectionUtil.permissionChanger();
+		}
+		
 		
 	}
 	
 	public static void  userLogin() {
 
-		
-		
 		ConnectionUtil.getUserInfo();
-		ConnectionUtil.abyssBarInfo();
+//		System.out.println("What would you like to do manager");
+//		System.out.println("1.) View employees");
+//		System.out.println("2.) change permissions of employees(Unfinished)");
+//		
+//		int userChoice = userInput.nextInt();
+//		
+//		switch(userChoice) {
+//		case 1:
+//			ConnectionUtil.getUserInfo();
+//		}
 		
 		
-//		System.out.println("Please enter your credientals");
-//		System.out.println("Enter your Username");
-//		String userField = userInput.nextLine();
-//		System.out.println("Enter your Password");
-//		String passwordField = userInput.nextLine();
-//		if(userName == null && userPassword == null) {
-//			System.out.println("Please do not leave the fields blank");
-//			userLogin();
-//		}
-//
-//		if(userField.equals(userName)) {
-//			System.out.println("The username is correct!");
-//			if(passwordField.equals(userPassword)) {
-//				System.out.println("password is correct");
-//				System.out.println("Welcome currentUser: " + userName + "!");
-//				switch(userPrivilege){
-//				case "Customer":
-//					System.out.println("User is a customer, redirecting to customer options");
-//					accountOptionsCustomer();
-//				case "Employee":
-//					System.out.println("User is a Employee, redirecting to Employee options");
-//					
-//				case "Manager":
-//					System.out.println("User is a Manager, redirecting to Manager Options");
-//				}
-//				
-//			}
-//		}
-//		else {
-//			System.out.println("Please enter the correct credentials");
-//			userLogin();
-//		}
 			
 	}
 	
@@ -184,6 +173,20 @@ public class User {
 	}
 	
 
+	public static void displayList() {
+		
+		
+		
+		List<User> userList = ConnectionUtil.selectAllUsers();
+		
+		for(User users : userList) {
+			
+			System.out.println("UserId: " +users.getId() +" Username: " +  users.getUserName() + " Userpassword: " + users.getPassword() + " age: " + users.getAge() + " # credits in wallet: " + users.getCredits() + " Current Privilege: " + users.getPrivilege());
+		
+			
+		}
+		
+	}
 	
 	public int getId() {
 		return this.userId; 
