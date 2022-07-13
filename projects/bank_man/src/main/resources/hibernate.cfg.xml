@@ -23,7 +23,6 @@
 		
 		
 		<mapping class="com.revature.models.User"></mapping>
-		<mapping class="com.revature.models.Task"></mapping>
     </session-factory>
 
 </hibernate-configuration>
