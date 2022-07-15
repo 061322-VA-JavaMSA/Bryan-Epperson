@@ -11,6 +11,7 @@ async function login(){
 
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
+    
 
     let response = await fetch(`${apiUrl}/auth`,{
         method: 'POST',
@@ -31,10 +32,21 @@ async function login(){
             persisting the User object sent back to session storage for use in other pages
             Session Storage only allows persistence of Strings so the JS Object is converted to a JSON string using JSON.stringify
          */
-         sessionStorage.setItem('principal', JSON.stringify(data));
+
+        sessionStorage.setItem('principal', JSON.stringify(data));
         // redirect to the homepage on success
-        window.location.href="./index.html";
+        console.log("Something happened!")
+        if(data.role == "ADMIN"){
+            window.location.href="./employees.html";
+        }
+        else{
+            window.location.href="./managers.html";
+        }
     } else{
         console.log('Unable to login.')
     }
+
+
+
+
 }

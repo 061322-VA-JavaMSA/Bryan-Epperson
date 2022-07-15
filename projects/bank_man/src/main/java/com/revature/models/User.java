@@ -21,6 +21,14 @@ public class User {
 	private String username;
 	@Column( nullable = false)
 	private String password;
+	@Column(name = "user_first_name")
+	private String userFirstName;
+	@Column(name = "user_last_name")
+	private String userLastName;
+	@Column(name = "user_email")
+	private String userEmail;
+
+
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
@@ -60,10 +68,33 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	public String getUserFirstName() {
+		return userFirstName;
+	}
 
+	public void setUserFirstName(String userFirstName) {
+		this.userFirstName = userFirstName;
+	}
+
+	public String getUserLastName() {
+		return userLastName;
+	}
+
+	public void setUserLastName(String userLastName) {
+		this.userLastName = userLastName;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, password, role, username);
+		return Objects.hash(id, password, role, userEmail, userFirstName, userLastName, username);
 	}
 
 	@Override
@@ -76,7 +107,8 @@ public class User {
 			return false;
 		User other = (User) obj;
 		return id == other.id && Objects.equals(password, other.password) && role == other.role
-				&& Objects.equals(username, other.username);
+				&& Objects.equals(userEmail, other.userEmail) && Objects.equals(userFirstName, other.userFirstName)
+				&& Objects.equals(userLastName, other.userLastName) && Objects.equals(username, other.username);
 	}
 
 	@Override

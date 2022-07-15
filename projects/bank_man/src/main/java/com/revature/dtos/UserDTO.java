@@ -12,7 +12,11 @@ public class UserDTO {
 
 	private int id;
 	private String username;
+	private String userFirstName;
+	private String userLastName;
+	private String userEmail;
 	private Role role;
+	
 	
 	public UserDTO() {
 		super();
@@ -22,6 +26,9 @@ public class UserDTO {
 	public UserDTO(User u) {
 		id = u.getId();
 		username = u.getUsername();
+		userFirstName = u.getUserFirstName();
+		userLastName = u.getUserLastName();
+		userEmail = u.getUserEmail();
 		role = u.getRole();
 	}
 	
@@ -37,6 +44,31 @@ public class UserDTO {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public String getUserFirstName() {
+		return userFirstName;
+	}
+
+	public void setUserFirstName(String userFirstName) {
+		this.userFirstName = userFirstName;
+	}
+
+	public String getUserLastName() {
+		return userLastName;
+	}
+
+	public void setUserLastName(String userLastName) {
+		this.userLastName = userLastName;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
 	public Role getRole() {
 		return role;
 	}
@@ -45,7 +77,7 @@ public class UserDTO {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, role, username);
+		return Objects.hash(id, role, userEmail, userFirstName, userLastName, username);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -56,7 +88,9 @@ public class UserDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		UserDTO other = (UserDTO) obj;
-		return id == other.id && role == other.role && Objects.equals(username, other.username);
+		return id == other.id && role == other.role && Objects.equals(userEmail, other.userEmail)
+				&& Objects.equals(userFirstName, other.userFirstName)
+				&& Objects.equals(userLastName, other.userLastName) && Objects.equals(username, other.username);
 	}
 	@Override
 	public String toString() {

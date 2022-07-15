@@ -1,14 +1,14 @@
 package com.revature.services;
 
 import com.revature.daos.UserDAO;
-import com.revature.daos.UserPostgres;
+import com.revature.daos.UserHibernate;
 import com.revature.exceptions.LoginException;
 import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
 
 public class AuthService {
 
-	private UserDAO ud = new UserPostgres();
+	private UserDAO ud = new UserHibernate();
 	
 	/*-
 	 * if the user is found by username and the password matches, returns that user
