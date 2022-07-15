@@ -70,22 +70,25 @@ public class ReimbursementServlet extends HttpServlet {
 				pw.close();
 				
 			}
-			else {
+		else {
 				// /1, /11, /{some-value}
 				// Have to remove "/" to get the id to be retrieved
-				int id = Integer.parseInt(pathInfo.substring(1));
-				PrintWriter pw2 = res.getWriter();
-				pw2.println("General KENOBI!");
-				try (PrintWriter pw = res.getWriter()) {
+			int id = Integer.parseInt(pathInfo.substring(1));
+			PrintWriter pw2 = res.getWriter();
+			pw2.println("General KENOBI!");
+			try (PrintWriter pw = res.getWriter()) {
 					// retrieve user by id
-					Reimbursement reimb = rs.getReimbursementById(id);
-					ReimbursementDTO rDTO = new ReimbursementDTO(reimb);
-					System.out.println(reimb);
-					pw2.println(rs.getReimbursementById(id));
+				Reimbursement reimb = rs.getReimbursementById(id);
+				ReimbursementDTO rDTO = new ReimbursementDTO(reimb);
+				System.out.println(reimb);
+					
+				pw2.println(rs.getReimbursementById(id));
 					// convert user to JSON and write to response body
-					pw.write(om.writeValueAsString(rDTO));
-					res.setStatus(200);
-					pw2.println("General KENOBI!");
+				pw.write(om.writeValueAsString(rDTO));
+				res.setStatus(200);
+			}catch(Exception e) {
+		           res.sendError(400, "Unable to create new reimbursement.");
+		           e.printStackTrace();
 				}
 			}
 			

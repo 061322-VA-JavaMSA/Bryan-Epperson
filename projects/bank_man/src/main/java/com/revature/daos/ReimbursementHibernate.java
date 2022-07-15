@@ -64,7 +64,7 @@ public class ReimbursementHibernate implements ReimbursementDao {
 	public List<Reimbursement> getPendingReimbursements(int id){
 		List<Reimbursement> reimbursement = null;
 		try(Session s = HibernateUtil.getSessionFactory().openSession()){
-			reimbursement = s.createQuery("from Reimbursement", Reimbursement.class).list();
+			reimbursement = s.createQuery("from reimbursement", Reimbursement.class).list();
 		}
 		
 		return reimbursement;
@@ -80,7 +80,7 @@ public class ReimbursementHibernate implements ReimbursementDao {
 	public List<Reimbursement> getReimbursements() {
 		List<Reimbursement> reimbursement = null;
 		try(Session s = HibernateUtil.getSessionFactory().openSession()){
-			reimbursement = s.createQuery("from Reimbursement", Reimbursement.class).list();
+			reimbursement = s.createQuery("from reimbursement", Reimbursement.class).list();
 		}
 		
 		return reimbursement;
